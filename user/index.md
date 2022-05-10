@@ -3,7 +3,7 @@ title: 사용자 정보확인
 ---
 <Block>
 
-# 시용자정보확인
+# 사용자정보확인
 
 [[toc]]
 
@@ -13,30 +13,32 @@ title: 사용자 정보확인
 
 ## 사용자 아이디 사용유무 확인
 
-사용자의 `userID`  존재유무를 확인한다
+사용자의 **userId**  존재유무를 확인한다
 
-````vue
-curl -X get http://localhost/api/auth/userCount/$userID
-````
+```vue
+curl -X get http://localhost/api/auth/userCount/:userId
+```
 
 ### 입력
 
-| param  |  형식   |              설명               | 
-| :---: | :-----: | :------------------------------------: | :-----: |
-|   userID   | String  |               사용자아이디                |
+|param|형식|설명|  
+|:------------:|:---------:|:-----------:| 
+|  **userId**  |  String   |   사용자아이디    | 
 
 ### 출력
 
 | param  |  형식   |              설명               |
-| :---: | :-----: | :------------------------------------: | :-----: |
+| :---: | :-----: | :------------------------------------: |
 |   count   | int  |               1: 사용중 0: 미사용                |
 
 <Example>
 
 <CURL>
+
 ```bash
-curl -X get http://localhost/api/auth/userCount/unicore
+curl -X get http://localhost/api/auth/userCount/unicoreId
 ```
+
 </CURL>
 
 </Example>
@@ -49,9 +51,9 @@ curl -X get http://localhost/api/auth/userCount/unicore
 
 신규사용자를 등록한다.
 
-````vue
+```vue
 curl -X post http://localhost/api/auth/userInsert
---data '{
+--data {
 "user_id": "unicoretest001",
 "user_password": "unicoretest001",
 "user_status": 1,
@@ -63,36 +65,38 @@ curl -X post http://localhost/api/auth/userInsert
 "user_name": "테스트사용자",
 "user_birth_day": "19000101",
 "recommend_id": "unicore001"
-}'
-````
+}
+```
 
 ### 입력
 
-| param  |  형식   |              설명               |
-| :---: | :-----: | :------------------------------------: | :-----: |
-|   user_id   | String  |               사용자아이디                |
-|   user_password   | String  |               패스워드                |
-|   user_status   | int  |               사용자이용가능상태 1:이용가능 0:서비스이용불가                |
-|   user_terms_agree   | int  |              약관동의 1:동의 0: 미동의                |
-|   user_address   | String  |               주소               |
-|   user_detail_address   | String  |               세부주소                |
-|   mobile_phone   | String  |               핸드폰번호                |
-|   user_email   | String  |               사용자이메일                |
-|   user_name   | String  |               사용자이름                |
-|   user_birth_day   | String  |               생년월일 19000101                |
-|   recommend_id   | String  |               추천인아이디                |
+| param  |  형식   |              설명               |        비고        |
+| :---: | :-----: | :--------------------: |:----------------:|
+|   user_id   | String  | 사용자아이디  |                  |
+|   user_password   | String  | 패스워드 |                  |
+|   user_status   | int  |  사용자이용가능상태 | 1:이용가능 0:서비스이용불가 |
+|   user_terms_agree   | int  | 약관동의 |   1:동의 0: 미동의    |
+|   user_address   | String  | 주소 |                  |
+|   user_detail_address   | String  | 세부주소   |                  |
+|   mobile_phone   | String  | 핸드폰번호 |                  |
+|   user_email   | String  | 사용자이메일          |                  |
+|   user_name   | String  | 사용자이름              |                  |
+|   user_birth_day   | String  | 생년월일   |     19000101     |
+|   recommend_id   | String  | 추천인아이디  ||
 
 ### 출력
 
 성공: respons status 200
 실패: respons status 500
+
 | param  |  형식   |              설명               |
-| :---: | :-----: | :------------------------------------: | :-----: |
+| :---: | :-----: | :------------------------------------: |
 |   message   | String  |               실패한사유|
 
 <Example>
 
 <CURL>
+
 ```bash
 curl -X post http://localhost/api/auth/userInsert
   --data '{
@@ -109,6 +113,7 @@ curl -X post http://localhost/api/auth/userInsert
     "recommend_id": "unicore001"
   }'
 ```
+
 </CURL>
 
 </Example>
@@ -123,28 +128,30 @@ curl -X post http://localhost/api/auth/userInsert
 추천인이 존재하는지 확인한다.
 
 ````vue
-curl -X get http://localhost/api/auth/userName/$userId
+curl -X get http://localhost/api/auth/userName/:userId
 ````
 
 ### 입력
 
 | param  |  형식   |              설명               |
-| :---: | :-----: | :------------------------------------: | :-----: |
+| :---: | :-----: | :------------------------------------: |
 |   $userId   | String  |             추천인아아디                |
 
 ### 출력
 
 | param  |  형식   |              설명               |
-| :---: | :-----: | :------------------------------------: | :-----: |
+| :---: | :-----: | :------------------------------------: |
 |   user_id   | String  |      아아디  |
 |   user_name   | String  |      이름   |
 
 <Example>
 
 <CURL>
+
 ```bash
 curl -X get http://localhost/api/auth/userName/unicore
 ```
+
 </CURL>
 
 </Example>
@@ -159,14 +166,18 @@ curl -X get http://localhost/api/auth/userName/unicore
 
 ````vue
 curl -X post http://localhost/api/auth/loginInfo
+ data '{
+    "user_id": "unicoretest001",
+    "user_password": "unicoretest001"
+    }'
 ````
 
 ### 입력
 
-| param  |  형식   |              설명               |
-| :---: | :-----: | :------------------------------------: | :-----: |
-|   user_id   | String  |        사용자 아아디           |
-|   user_password   | String  |        사용자 아아디           |
+| param  |  형식   |   설명    |
+| :---: | :-----: |:-------:|
+|   user_id   | String  | 사용자 아아디 |
+|   user_password   | String  | 사용자 암호  |
 
 ### 출력
 
@@ -195,7 +206,11 @@ curl -X post http://localhost/api/auth/loginInfo
 
 <CURL>
 ```bash
-curl -X get http://localhost/api/auth/userName/unicore
+curl -X post http://localhost/api/auth/loginInfo
+ --data '{
+    "user_id": "unicoretest001",
+    "user_password": "unicoretest001"
+    }'
 ```
 </CURL>
 
@@ -218,13 +233,13 @@ curl -X post http://localhost/api/auth/updatePassword
 #### Request 헤더요청값
 
 | param  |  형식   |              설명               |
-| :---: | :-----: | :------------------------------------: | :-----: |
+| :---: | :-----: | :------------------------------------: |
 |   authorization   | String  |        api 이용가능 인증키값      |
 
 #### 파라미터입력
 
 | param  |  형식   |              설명               |
-| :---: | :-----: | :------------------------------------: | :-----: |
+| :---: | :-----: | :------------------------------------: |
 |   user_id   | String  |        사용자 아아디           |
 |   old_password   | String  |        기존패스워드         |
 |   new_password   | String  |        변경하는 패스워드         |
@@ -244,6 +259,64 @@ curl -X post http://localhost/api/auth/updatePassword
     "new_password": "unicoretest002",
   }'
 ```
+</CURL>
+
+</Example>
+
+</Block>
+
+
+<Block>
+
+## 인증키 로그인
+
+인증키로 사용자 정보와 이후 사용가능한 인증키를 발급한다.
+
+````vue
+curl -X post http://localhost/api/auth/authInfo
+-H 'authorization:  :authorization'
+````
+### 입력
+
+#### Request 헤더요청값
+
+| param  |  형식   |              설명               |
+| :---: | :-----: | :------------------------------------: |
+|   authorization   | String  |        api 이용가능 인증키값      |
+
+
+### 출력
+
+#### response 해더값
+
+| param  |  형식   |              설명               |
+| :---: | :-----: | :------------------------------------: | 
+|   authorization | String  |  api 이용가능 인증키값  |
+
+#### response data
+
+| param  |  형식   |              설명               |
+| :---: | :-----: | :------------------------------------: | 
+|   user_id | String  |      아아디  |
+|   user_password | String  |   패스워드-빈값으로 온다  |
+|   user_statuss  | tinyint(1)  |    사용자 상태 1-이용가능 0-이용불가   |
+|   user_name  | String  |      이름   |
+|   mobile_phone  | String  |    핸드폰번호   |
+|   user_birth_day  | String  |   생년월일   |
+|   bank_name  | String  |    은행이름   |
+|   bank_account  | String  |   은행계좌번호   |
+|   bank_holder  | String  |    예금주이름  |
+|   recommend_user_id  | String  |   추천인 아이디   |
+
+<Example>
+
+<CURL>
+
+```bash
+curl -X post http://localhost/api/auth/authInfo
+    -H 'authorization: authorization'
+```
+
 </CURL>
 
 </Example>

@@ -315,14 +315,16 @@ curl -X POST http://localhost/api/account/pointThList
 
 - 사용자들의 포인트 구매 내역을 확인한다
 ```vue
-curl -X post http://localhost/api/account/buyUniPoint/:userId
+curl -X get http://localhost/api/account/uniPointList/:userId
+-H 'authorization:  :authorization'
 ```
 
 ### 입력
 
-| param  |  형식   |              설명               |
-|:------:| :-----: | :------------------------------------: |
-| userId | String  |      사용자아아디     |
+| param  |  형식   |     설명      | 비고 |
+|:------:| :-----: |:-----------:|--|
+| userId | String  |   사용자아아디    | 주소뒤에 입력 |
+| authorization | String  | 인증키 | 로그인시 받은 인증키를 헤더에 입력 |
 
 
 ### 출력
@@ -362,7 +364,8 @@ curl -X post http://localhost/api/account/buyUniPoint/:userId
 
 <CURL>
 ```bash
-curl -X post http://localhost/api/account/buyUniPoint/:userId
+curl -X get http://localhost/api/account/uniPointList/:userId
+-H 'authorization:  12345'
 ```
 </CURL>
 
@@ -436,6 +439,7 @@ curl -X POST http://localhost/api/account/buyUniPoint
 - 사용자의 유니포인트 구매 / 환불 확정하기
 ```vue
 curl -X post http://localhost/api/account/uniPointConfirm
+-H 'authorization:  :authorization'
 --data {
     "no": "1",
     "confirmType": "Y"
@@ -444,10 +448,11 @@ curl -X post http://localhost/api/account/uniPointConfirm
 
 ### 입력
 
-| param |   형식   |                설명                 |
-|:-----:|:------:|:---------------------------------:|
-|  no   |  int   |             유니포인트목록번호             |
-|   confirmType    | String | 구매/환불 구분요청자<br/> Y= 구매확정 P = 환불확정 |
+| param |   형식   |                설명                 | 비고 |
+|:-----:|:------:|:---------------------------------:|--|
+|  no   |  int   |             유니포인트목록번호             | 구매번호는 사용자구분없이 <br/>유니크한 고유번호 |
+|   confirmType    | String | 구매/환불 구분요청자 |  Y= 구매확정 <br/> P = 환불확정 |
+|   authorization    | String |                인증키                | 로그인시 받은 인증키를 헤더에 입력해야함 |
 
 
 ### 출력
@@ -463,13 +468,16 @@ curl -X post http://localhost/api/account/uniPointConfirm
 <Example>
 
 <CURL>
+
 ```bash
 curl -X POST http://localhost/api/account/uniPointConfirm
+-H 'authorization:  :authorization'
   --data '{
     "no": "1",
     "confirmType": "Y"
   }'
 ```
+
 </CURL>
 
 </Example>
